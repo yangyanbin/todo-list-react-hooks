@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import store from "../store";
+import {addTodo} from "../store/action"
 
 export default class AddForm extends Component {
     constructor() {
@@ -19,13 +21,6 @@ export default class AddForm extends Component {
         console.log(this.titleInput);
     }
 
-    handleKeyPress = (e)=>{
-        const keyCode = e.nativeEvent.keyCode;
-        if(keyCode===13){
-            this.handleAdd();
-        }
-    }
-
     handleAdd = () => {
         const newTodo = {
             title: this.state.title,
@@ -33,7 +28,7 @@ export default class AddForm extends Component {
             desc: this.state.title
         }
         if (this.state.title) {
-            this.props.addTodo(newTodo);
+            store.dispatch(addTodo(newTodo));
             this.setState({ title: '' });
         }
     }
@@ -44,7 +39,6 @@ export default class AddForm extends Component {
                 <input className='form-control'
                     value={this.state.title}
                     onChange={this.handleChange}
-                    onKeyPress={this.handleKeyPress}
                     name="title"
                     ref={node => this.titleInput = node} />
                     <div className="input-group-append">
